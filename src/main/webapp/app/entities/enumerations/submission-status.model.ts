@@ -1,0 +1,9 @@
+export enum SubmissionStatus {
+  SUBMITTED = 'SUBMITTED',
+
+  PRESCREENED = 'PRESCREENED',
+
+  INTERVIEWED = 'INTERVIEWED',
+
+  DECIDED = 'DECIDED',
+}

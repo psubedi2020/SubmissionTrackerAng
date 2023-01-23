@@ -1,0 +1,64 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="submission">
+      <h2 data-cy="submissionDetailsHeading"><span jhiTranslate="submissionTrackerAngApp.submission.detail.title">Submission</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ submission.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="submissionTrackerAngApp.submission.jobTitle">Job Title</span></dt>
+        <dd>
+          <span>{{ submission.jobTitle }}</span>
+        </dd>
+        <dt><span jhiTranslate="submissionTrackerAngApp.submission.companyName">Company Name</span></dt>
+        <dd>
+          <span>{{ submission.companyName }}</span>
+        </dd>
+        <dt><span jhiTranslate="submissionTrackerAngApp.submission.jobURL">Job URL</span></dt>
+        <dd>
+          <span>{{ submission.jobURL }}</span>
+        </dd>
+        <dt><span jhiTranslate="submissionTrackerAngApp.submission.quotedSalary">Quoted Salary</span></dt>
+        <dd>
+          <span>{{ submission.quotedSalary }}</span>
+        </dd>
+        <dt><span jhiTranslate="submissionTrackerAngApp.submission.jobRequisitionId">Job Requisition Id</span></dt>
+        <dd>
+          <span>{{ submission.jobRequisitionId }}</span>
+        </dd>
+        <dt><span jhiTranslate="submissionTrackerAngApp.submission.applicationDate">Application Date</span></dt>
+        <dd>
+          <span>{{ submission.applicationDate | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="submissionTrackerAngApp.submission.submissionStatus">Submission Status</span></dt>
+        <dd>
+          <span jhiTranslate="{{ 'submissionTrackerAngApp.SubmissionStatus.' + submission.submissionStatus }}">{{
+            submission.submissionStatus
+          }}</span>
+        </dd>
+        <dt><span jhiTranslate="submissionTrackerAngApp.submission.candidate">Candidate</span></dt>
+        <dd>
+          <div *ngIf="submission.candidate">
+            <a [routerLink]="['/candidate', submission.candidate.id, 'view']">{{ submission.candidate.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/submission', submission.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

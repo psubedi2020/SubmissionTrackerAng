@@ -1,0 +1,176 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-submission-heading"
+        data-cy="SubmissionCreateUpdateHeading"
+        jhiTranslate="submissionTrackerAngApp.submission.home.createOrEditLabel"
+      >
+        Create or edit a Submission
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="submissionTrackerAngApp.submission.jobTitle" for="field_jobTitle">Job Title</label>
+          <input type="text" class="form-control" name="jobTitle" id="field_jobTitle" data-cy="jobTitle" formControlName="jobTitle" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="submissionTrackerAngApp.submission.companyName" for="field_companyName"
+            >Company Name</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="companyName"
+            id="field_companyName"
+            data-cy="companyName"
+            formControlName="companyName"
+          />
+          <div *ngIf="editForm.get('companyName')!.invalid && (editForm.get('companyName')!.dirty || editForm.get('companyName')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('companyName')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="submissionTrackerAngApp.submission.jobURL" for="field_jobURL">Job URL</label>
+          <input type="text" class="form-control" name="jobURL" id="field_jobURL" data-cy="jobURL" formControlName="jobURL" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="submissionTrackerAngApp.submission.quotedSalary" for="field_quotedSalary"
+            >Quoted Salary</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            name="quotedSalary"
+            id="field_quotedSalary"
+            data-cy="quotedSalary"
+            formControlName="quotedSalary"
+          />
+          <div
+            *ngIf="editForm.get('quotedSalary')!.invalid && (editForm.get('quotedSalary')!.dirty || editForm.get('quotedSalary')!.touched)"
+          >
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('quotedSalary')?.errors?.min"
+              jhiTranslate="entity.validation.min"
+              [translateValues]="{ min: 10000 }"
+            >
+              This field should be at least 10000.
+            </small>
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('quotedSalary')?.errors?.max"
+              jhiTranslate="entity.validation.max"
+              [translateValues]="{ max: 500000.0 }"
+            >
+              This field cannot be more than 500000.00.
+            </small>
+            <small
+              class="form-text text-danger"
+              [hidden]="!editForm.get('quotedSalary')?.errors?.number"
+              jhiTranslate="entity.validation.number"
+            >
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="submissionTrackerAngApp.submission.jobRequisitionId" for="field_jobRequisitionId"
+            >Job Requisition Id</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="jobRequisitionId"
+            id="field_jobRequisitionId"
+            data-cy="jobRequisitionId"
+            formControlName="jobRequisitionId"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="submissionTrackerAngApp.submission.applicationDate" for="field_applicationDate"
+            >Application Date</label
+          >
+          <div class="d-flex">
+            <input
+              id="field_applicationDate"
+              data-cy="applicationDate"
+              type="datetime-local"
+              class="form-control"
+              name="applicationDate"
+              formControlName="applicationDate"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="submissionTrackerAngApp.submission.submissionStatus" for="field_submissionStatus"
+            >Submission Status</label
+          >
+          <select
+            class="form-control"
+            name="submissionStatus"
+            formControlName="submissionStatus"
+            id="field_submissionStatus"
+            data-cy="submissionStatus"
+          >
+            <option [ngValue]="null">{{ 'submissionTrackerAngApp.SubmissionStatus.null' | translate }}</option>
+            <option *ngFor="let submissionStatus of submissionStatusValues" [value]="submissionStatus">
+              {{ 'submissionTrackerAngApp.SubmissionStatus.' + submissionStatus | translate }}
+            </option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="submissionTrackerAngApp.submission.candidate" for="field_candidate">Candidate</label>
+          <select
+            class="form-control"
+            id="field_candidate"
+            data-cy="candidate"
+            name="candidate"
+            formControlName="candidate"
+            [compareWith]="compareCandidate"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="candidateOption" *ngFor="let candidateOption of candidatesSharedCollection">{{ candidateOption.id }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

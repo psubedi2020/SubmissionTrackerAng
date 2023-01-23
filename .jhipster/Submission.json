@@ -1,0 +1,56 @@
+{
+  "applications": "*",
+  "changelogDate": "20230123050006",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "submission",
+  "fields": [
+    {
+      "fieldName": "jobTitle",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "companyName",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "jobURL",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "quotedSalary",
+      "fieldType": "BigDecimal",
+      "fieldValidateRules": ["min", "max"],
+      "fieldValidateRulesMax": "500000.00",
+      "fieldValidateRulesMin": "10000"
+    },
+    {
+      "fieldName": "jobRequisitionId",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "applicationDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "submissionStatus",
+      "fieldType": "SubmissionStatus",
+      "fieldValues": "SUBMITTED,PRESCREENED,INTERVIEWED,DECIDED"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Submission",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "candidate",
+      "otherEntityRelationshipName": "submission",
+      "relationshipName": "candidate",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}
