@@ -1,0 +1,49 @@
+
+// an ignored comment
+/** not an ignored comment */
+entity Location {
+	streetAddress String,
+	postalCode String required
+	city String,
+	stateProvince String
+}
+
+entity Candidate {
+	firstName String required,
+	lastName String required,
+	email String,
+	phoneNumber String pattern(/^(\([0-9]{3}\)|[0-9]{3}-)[0-9]{3}-[0-9]{4}$/)
+	availableDate Instant,
+	expectedSalary BigDecimal 
+}
+
+entity Submission {
+	jobTitle String,
+    companyName String required,
+    jobURL String,
+	quotedSalary BigDecimal min(10000) max(500000.00),
+	jobRequisitionId String, 
+    applicationDate Instant,
+    submissionStatus SubmissionStatus, 
+}
+
+enum Language {
+    FRENCH, ENGLISH, SPANISH
+}
+
+enum SubmissionStatus {
+    SUBMITTED, PRESCREENED, INTERVIEWED, DECIDED 
+}
+
+
+// defining multiple OneToMany relationships with comments
+relationship OneToMany {
+	Candidate to Submission{candidate},
+}
+
+paginate Submission, Candidate with infinite-scroll
+paginate Submission with pagination
+
+
+// Set service options to all except few
+service all with serviceImpl except Cadidate, Submission
